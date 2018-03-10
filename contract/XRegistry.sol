@@ -43,16 +43,16 @@ contract XRegistry {
 	{
 	    if (bytes(email).length != 0) {
 	        r_email = email;
-	        r_addr = _emailToAddress[email];
-	        r_number = _addressToNumber[addr];
+	        r_addr = _emailToAddress[r_email];
+	        r_number = _addressToNumber[r_addr];
 	    } else if (number != 0) {
 	        r_number = number;
-	        r_addr = _NumberToAddress[number];
-	        r_email = _addressToEmail[addr];
+	        r_addr = _NumberToAddress[r_number];
+	        r_email = _addressToEmail[r_addr];
 	    } else if (addr != 0) {
 	        r_addr = addr;
-	        r_email = _addressToEmail[addr];
-	        r_number = _addressToNumber[addr];
+	        r_email = _addressToEmail[r_addr];
+	        r_number = _addressToNumber[r_addr];
 	    } else {
 	        r_email = '';
 	        r_number = 0;
