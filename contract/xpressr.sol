@@ -1,8 +1,7 @@
 pragma solidity ^0.4.18;
+pragma experimental ABIEncoderV2;
 
 contract xpressr {
-
-    event NewXpression(uint xId, string message, string url);
 
     struct Xpression {
         string message;
@@ -10,23 +9,22 @@ contract xpressr {
         uint timestamp;
     }
 
-    address _xpressr;
+    address public _xpressr;
     address[] senders;
 
     mapping(address => Xpression[]) myXpressions;
-    mapping(uint => address) public xpressionSender;
 
-    modifier canSee(address[] addresses) {
-        for (uint i = 0; i < addresses.length; i++) {
-            msg.sender == addresses[i];
-        }
+    modifier onlyOwner {
+        require(msg.sender == _xpressr);
         _;
     }
 
+    function xpressrSetter() {
+        _xpressr = msg.sender;
+    }
+
     function xpress(string message, string url) external {
-        uint id = myXpressions[msg.sender].push(Xpression(message, url, now));
-        xpressionSender[id] = msg.sender;
-        NewXpression(id, message, url);
+        myXpressions[msg.sender].push(Xpression(message, url, now));
         bool alreadySent = false;
         for(uint i = 0; i < senders.length; i++) {
             if(msg.sender == senders[i]) {
@@ -40,7 +38,7 @@ contract xpressr {
         return myXpressions[msg.sender];
     }
 
-    function getMyXpressions(address sender) external view returns(Xpression[]) {
+    function getMyXpressions(address sender) external view onlyOwner returns(Xpression[]) {
         return myXpressions[sender];
     }
 }
