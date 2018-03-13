@@ -1,5 +1,4 @@
 pragma solidity ^0.4.18;
-pragma experimental ABIEncoderV2;
 
 contract xpressr {
 
@@ -19,7 +18,7 @@ contract xpressr {
         _;
     }
 
-    function xpressrSetter() {
+    function xpressr() public {
         _xpressr = msg.sender;
     }
 
